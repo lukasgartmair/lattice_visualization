@@ -9,21 +9,19 @@ class Structure{
 
 	private:
 
-	std::string lattice_type;
+	const std::string lattice_type;
 	std::vector<std::vector<double> > base_vecs;
 
 	public:
 
 	Structure();
-	Structure(std::string lt);
+	Structure(const std::string lt);
 	Structure(Structure& s);
 	~Structure();
 
-	enum lattice_types{fcc}	;
-
 	std::string getLatticeType();
 
-	void initializeBaseVectors();
+	void initializeBaseVectors(const double& lattice_constant);
 
 	void getBaseVectors();
 
