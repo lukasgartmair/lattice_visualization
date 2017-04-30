@@ -13,11 +13,12 @@ include(${VTK_USE_FILE})
 set (CMAKE_CXX_STANDARD 11)
 
 add_library (structure structure.cpp structure.h)
+add_library (visualization visualization.cpp visualization.h)
 
 add_executable(lattice_viz MACOSX_BUNDLE lattice_viz.cpp)
 
 if(VTK_LIBRARIES)
-  target_link_libraries(lattice_viz structure ${VTK_LIBRARIES})
+  target_link_libraries(lattice_viz structure visualization ${VTK_LIBRARIES})
 else()
-  target_link_libraries(lattice_viz structure vtkHybrid vtkWidgets)
+  target_link_libraries(lattice_viz structure visualization vtkHybrid vtkWidgets)
 endif()

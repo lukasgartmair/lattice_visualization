@@ -4,13 +4,19 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <utility>      // std::pair
+
+
+// c++11 alias technique
+using nested_double_vec = std::vector<std::vector<double> >;
 
 class Structure{
 
 	private:
 
 	const std::string lattice_type;
-	std::vector<std::vector<double> > base_vecs;
+	nested_double_vec corner_vecs;
+	nested_double_vec base_vecs;
 
 	public:
 
@@ -21,10 +27,10 @@ class Structure{
 
 	std::string getLatticeType();
 
-	void initializeBaseVectors(const double& lattice_constant);
-
-	void getBaseVectors();
-
+	void initializeVectors(const double& lattice_constant);
+	
+	std::pair <nested_double_vec,nested_double_vec> getVectors();
+	void printVectors();
 };
 
 #endif

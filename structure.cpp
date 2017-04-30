@@ -6,9 +6,9 @@
 const unsigned int dimension {3};
 
 
-Structure::Structure() : lattice_type(""), base_vecs(dimension, std::vector<double>(dimension)) {}
+Structure::Structure() : lattice_type(""), corner_vecs(dimension, std::vector<double>(dimension)), base_vecs(dimension, std::vector<double>(dimension)) {}
 
-Structure::Structure(const std::string lt) : lattice_type(lt), base_vecs(dimension, std::vector<double>(dimension)) {std::cout << "structure " << lattice_type << " created\n";}  
+Structure::Structure(const std::string lt) : lattice_type(lt), corner_vecs(dimension, std::vector<double>(dimension)), base_vecs(dimension, std::vector<double>(dimension)) {std::cout << "structure " << lattice_type << " created\n";}  
 
 Structure::Structure(Structure& s) : lattice_type(s.lattice_type) {}
 
@@ -18,23 +18,33 @@ std::string Structure::getLatticeType(){
 	return lattice_type;
 }
 
-void Structure::initializeBaseVectors(const double& lattice_constant = 1.0){
+void Structure::initializeVectors(const double& lattice_constant = 1.0){
 	
-	if ("cubic" == lattice_type){
+	corner_vecs[0] = {1.0,0.0,0.0};
+	corner_vecs[1] = {0.0,1.0,0.0};
+	corner_vecs[2] = {0.0,0.0,1.0};
 
-		base_vecs[0] = {1.0,0.0,0.0};
-		base_vecs[1] = {0.0,1.0,0.0};
-		base_vecs[2] = {0.0,0.0,1.0};
+	// multiplication of all base vec values with the lattice constant
+	for(unsigned int ui=0;ui<dimension;++ui){
+		std::transform(corner_vecs[ui].begin(), corner_vecs[ui].end(), corner_vecs[ui].begin(),
+			       std::bind1st(std::multiplies<double>(),lattice_constant));
 	}
 
-	else if ("fcc" == lattice_type){
+	if ("cubic" == lattice_type){
+
+		base_vecs[0] = {0.0,0.0,0.0};
+		base_vecs[1] = {0.0,0.0,0.0};
+		base_vecs[2] = {0.0,0.0,0.0};
+	}
+
+	if ("fcc" == lattice_type){
 
 		base_vecs[0] = {0.0,0.5,0.5};
 		base_vecs[1] = {0.5,0.0,0.5};
 		base_vecs[2] = {0.5,0.5,0.0};
 	}
 
-	else if ("bcc" == lattice_type){
+	if ("bcc" == lattice_type){
 
 		base_vecs[0] = {-0.5,0.5,0.5};
 		base_vecs[1] = {0.5,-0.5,0.5};
@@ -48,14 +58,27 @@ void Structure::initializeBaseVectors(const double& lattice_constant = 1.0){
 	}
 }
 
-void Structure::getBaseVectors(){
+std::pair <nested_double_vec,nested_double_vec> Structure::getVectors(){
+	
+	std::pair <nested_double_vec,nested_double_vec> vectors;
+  	vectors = std::make_pair (corner_vecs, base_vecs);
+	return vectors;
+}
 
-	for(unsigned int ui=0;ui<dimension;++ui){
-		for(unsigned int uj=0;uj<dimension;++uj){
-			std::cout << base_vecs[ui][uj] << std::endl;	
-		}
+void Structure::printVectors(){
+
+	// first the corners
+	for (const auto & elem : getVectors().first){
+		std::cout << elem[0] << elem[1] << elem[2] << " position\n";
+	}
+
+	// then the faces / body
+	// first the corners
+	for (const auto & elem : getVectors().second){
+		std::cout << elem[0] << elem[1] << elem[2] << " position\n";
 	}
 
 }
+
 
 

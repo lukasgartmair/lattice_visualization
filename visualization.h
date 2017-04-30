@@ -6,27 +6,13 @@
 #include <GL/glu.h>
 #include <vector>
 #include <cmath>
+#include "structure.h"
 
 //http://stackoverflow.com/questions/5988686/creating-a-3d-sphere-in-opengl-using-visual-c
 // your framework of choice here
 
-class SolidSphere
-{
-protected:
-    std::vector<GLfloat> vertices;
-    std::vector<GLfloat> normals;
-    std::vector<GLfloat> texcoords;
-    std::vector<GLushort> indices;
+void visualizePoints(Structure& structure);
 
-public:
-    SolidSphere(float radius, unsigned int rings, unsigned int sectors);
-
-    void draw(GLfloat x, GLfloat y, GLfloat z);
-
-    void display();
-
-    
-};
 
 #endif
 

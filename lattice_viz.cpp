@@ -10,13 +10,11 @@ Structure s1("fcc");
 std::cout << s1.getLatticeType() << std::endl;
 
 const double lattice_constant = 2.0;
-s1.initializeBaseVectors(lattice_constant);
+s1.initializeVectors(lattice_constant);
 
-s1.getBaseVectors();
+s1.printVectors();
 
-SolidSphere sphere(1, 12, 24);
-
-sphere.display();
+visualizePoints(s1);
 
 return 0;
 }
