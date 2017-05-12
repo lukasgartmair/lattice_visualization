@@ -5,11 +5,11 @@
 
 int main(){
 
-Structure s1("fcc");
+Structure s1("bcc");
 
 std::cout << s1.getLatticeType() << std::endl;
 
-const double lattice_constant = 2.0;
+const double lattice_constant = 4.0;
 s1.initializeVectors(lattice_constant);
 
 s1.printVectors();
