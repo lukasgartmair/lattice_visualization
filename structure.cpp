@@ -6,9 +6,9 @@
 const unsigned int dimension {3};
 
 
-Structure::Structure() : lattice_type(""), corner_vecs(dimension, std::vector<double>(dimension)), base_vecs(dimension, std::vector<double>(dimension)) {}
+Structure::Structure() : lattice_type(""), base_vecs(dimension, std::vector<double>(dimension)) {}
 
-Structure::Structure(const std::string lt) : lattice_type(lt), corner_vecs(dimension, std::vector<double>(dimension)), base_vecs(dimension, std::vector<double>(dimension)) {std::cout << "structure " << lattice_type << " created\n";}  
+Structure::Structure(const std::string lt) : lattice_type(lt), base_vecs(dimension, std::vector<double>(dimension)) {std::cout << "structure " << lattice_type << " created\n";}  
 
 Structure::Structure(Structure& s) : lattice_type(s.lattice_type) {}
 
@@ -19,22 +19,12 @@ std::string Structure::getLatticeType(){
 }
 
 void Structure::initializeVectors(const double& lattice_constant = 1.0){
-	
-	corner_vecs[0] = {1.0,0.0,0.0};
-	corner_vecs[1] = {0.0,1.0,0.0};
-	corner_vecs[2] = {0.0,0.0,1.0};
-
-	// multiplication of all base vec values with the lattice constant
-	for(unsigned int ui=0;ui<dimension;++ui){
-		std::transform(corner_vecs[ui].begin(), corner_vecs[ui].end(), corner_vecs[ui].begin(),
-			       std::bind1st(std::multiplies<double>(),lattice_constant));
-	}
 
 	if ("cubic" == lattice_type){
 
-		base_vecs[0] = {0.0,0.0,0.0};
-		base_vecs[1] = {0.0,0.0,0.0};
-		base_vecs[2] = {0.0,0.0,0.0};
+		base_vecs[0] = {1.0,0.0,0.0};
+		base_vecs[1] = {0.0,1.0,0.0};
+		base_vecs[2] = {0.0,0.0,1.0};
 	}
 
 	if ("fcc" == lattice_type){
@@ -58,26 +48,17 @@ void Structure::initializeVectors(const double& lattice_constant = 1.0){
 	}
 }
 
-std::pair <nested_double_vec,nested_double_vec> Structure::getVectors(){
-	
-	std::pair <nested_double_vec,nested_double_vec> vectors;
-  	vectors = std::make_pair (corner_vecs, base_vecs);
-	return vectors;
+nested_double_vec Structure::getVectors(){
+
+	return base_vecs;
 }
 
 void Structure::printVectors(){
 
 	// first the corners
-	for (const auto & elem : getVectors().first){
+	for (const auto & elem : getVectors()){
 		std::cout << elem[0] << elem[1] << elem[2] << " position\n";
 	}
-
-	// then the faces / body
-	// first the corners
-	for (const auto & elem : getVectors().second){
-		std::cout << elem[0] << elem[1] << elem[2] << " position\n";
-	}
-
 }
 
 

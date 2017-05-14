@@ -15,7 +15,6 @@ class Structure{
 	private:
 
 	const std::string lattice_type;
-	nested_double_vec corner_vecs;
 	nested_double_vec base_vecs;
 
 	public:
@@ -29,7 +28,7 @@ class Structure{
 
 	void initializeVectors(const double& lattice_constant);
 	
-	std::pair <nested_double_vec,nested_double_vec> getVectors();
+	nested_double_vec getVectors();
 	void printVectors();
 };
 

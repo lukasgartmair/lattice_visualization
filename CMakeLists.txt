@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 
 PROJECT(lattice_viz)
 
-set(INCLUDE_DIR /home/lukas/lattice_viz)
+set(INCLUDE_DIR /home/lukas/application/fraunhofer_presentation/source_code_lukas_gartmair/C++/lattice_visualization)
 include_directories (${INCLUDE_DIR})     # make sure your .h all inside.
 
 
